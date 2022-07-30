@@ -2,23 +2,23 @@ import React, { useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import auth from "../../firebase.init";
+import auth from "../../../firebase.init";
+import Social from "../Social/Social";
 
 const Registration = () => {
   const navigate = useNavigate();
-  const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth);
+  const [agree, setAgree] = useState(false);
+  const [createUserWithEmailAndPassword, user, loading, error] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
 
   const emailRegRef = useRef("");
   const passRegRef = useRef("");
   const conPassRegRef = useRef("");
 
-  const email = emailRegRef.current.value;
-  const pass = passRegRef.current.value;
-  const confirm = conPassRegRef.current.value;
-
   const handleRegister = (event) => {
     event.preventDefault();
+    const email = emailRegRef.current.value;
+    const pass = passRegRef.current.value;
+    const confirm = conPassRegRef.current.value;
 
     createUserWithEmailAndPassword(email, pass);
   };
@@ -29,22 +29,17 @@ const Registration = () => {
 
   return (
     <div className="container w-50 mx-auto ">
-      <h1 className="text-center mt-5 mb-4">Please Register</h1>
-      <Form onClick={handleRegister}>
+      <h2 className="text-center mt-4 mb-3">Please Register</h2>
+      <Form onSubmit={handleRegister}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
           <Form.Control
             ref={emailRegRef}
             type="email"
             placeholder="Enter email"
           />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
           <Form.Control
             ref={passRegRef}
             type="password"
@@ -53,28 +48,43 @@ const Registration = () => {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
-          <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             ref={conPassRegRef}
             type="password"
             placeholder="Retype Password"
           />
         </Form.Group>
+        <small>
+          <Form.Group
+            onClick={() => setAgree(!agree)}
+            className="mb-3" controlId="formBasicCheckbox"
+          >
+            <Form.Check
+              className={`${agree ? "" : "text-danger"}`}
+              type="checkbox" label="Terms and conditions"
+            />
+          </Form.Group>
+        </small>
 
-        <Button variant="primary" type="submit">
-          Register
+        <Button
+          className={`w-50 mt-3 ${agree ? "enabled" : "disabled"}`}
+          variant="primary" type="submit"
+        > Register
         </Button>
-
       </Form>
-      <p className="mt-4">
-        Already registered?{" "}
-        <Link
-          to={"/login"}
-          className="text-decoration-none pe-auto text-danger"
-        >
-          Please Login{" "}
-        </Link>
+      <p className="mt-2">
+        <small>
+          already registered?{" "}
+          <Link
+            to={"/login"}
+            className="text-decoration-none pe-auto text-danger"
+          >
+            Please Login{" "}
+          </Link>
+        </small>
       </p>
+
+      <Social></Social>
     </div>
   );
 };

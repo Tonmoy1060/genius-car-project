@@ -6,6 +6,7 @@ import expert4 from "../../../images/experts/expert-4.jpg";
 import expert5 from "../../../images/experts/expert-5.jpg";
 import expert6 from "../../../images/experts/expert-6.png";
 import Expert from "../Expert/Expert";
+import './Expert.css';
 
 const experts = [
   { id: 1, name: "Johnson Trailer", img: expert1 },
@@ -19,7 +20,7 @@ const experts = [
 const Experts = () => {
   return (
     <div>
-      <h1 className="text-center text-primary mt-5">Out Experts</h1>
+      <h1 className="center">Out Experts</h1>
 
       <div className="row row-cols-1 row-cols-lg-3 row-cols-md-2 g-5">
         {experts.map((expert) => (

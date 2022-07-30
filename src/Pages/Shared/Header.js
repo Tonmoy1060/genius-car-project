@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { Button } from "react-bootstrap";
-import {signOut } from 'firebase/auth';
+import { signOut } from "firebase/auth";
 
 const Header = () => {
 
@@ -33,14 +33,17 @@ const Header = () => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              
+
             </Nav>
             <Nav>
               <Nav.Link className="ms-3" as={Link} to="home">Home</Nav.Link>
-              <Nav.Link className="ms-3" as={Link} to="features">Features</Nav.Link>
               <Nav.Link className="ms-3" as={Link} to="about">About</Nav.Link>
+              <Nav.Link className="ms-3" as={Link} to="addServices">Add Service</Nav.Link>
+              <Nav.Link className="ms-3" as={Link} to="deleteservice">Delete Service</Nav.Link>
               {
-                user ? <Button onClick={handleSignOut}>SignOut</Button>
+                user ? 
+                // <Button onClick={handleSignOut}>SignOut</Button>
+                <Nav.Link onClick={handleSignOut} className="ms-4" as={Link} to="login">SignOut</Nav.Link>
                 :
               <Nav.Link className="ms-4" as={Link} to="login">Login</Nav.Link>
               }
